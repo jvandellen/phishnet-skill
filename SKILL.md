@@ -1,6 +1,6 @@
 ---
 name: phishnet
-description: Query the Phish.net API v5 for Phish setlists, shows, songs, jam charts, venues, reviews, and attendance data. Use this skill whenever the user asks about Phish shows or setlists ("what did they play at...", "when was the last..."), song performance history or gaps, jam chart entries, venue history, tour dates, show ratings/reviews, or anything referencing Phish.net data — even if they don't mention the API by name. Also use it when building tools, scripts, or reports that consume Phish.net data.
+description: Query the Phish.net API v5 for Phish setlists, shows, songs, jam charts, venues, reviews, and attendance data, and track Phish videos on YouTube (official channel uploads, show/jam footage, couch tour streams) via the YouTube Data API. Use this skill whenever the user asks about Phish shows or setlists ("what did they play at...", "when was the last..."), song performance history or gaps, jam chart entries, venue history, tour dates, show ratings/reviews, finding video of a Phish show or jam, new uploads from Phish's YouTube channels, or anything referencing Phish.net data — even if they don't mention the API by name. Also use it when building tools, scripts, or reports that consume Phish.net or Phish YouTube data.
 ---
 
 # Phish.net API Skill
@@ -63,6 +63,18 @@ Note: `shows` and `setlists` include side projects (Trey, Mike, etc.). Filter to
 For full method/column details, gap-calculation guidance, and setlist-data quirks, read `references/api-reference.md`.
 
 For pre-computed statistics — all-time play counts, per-tour/per-year totals, "identify a show from songs I remember" (Show Finder), personal seen-stats — read `references/phishstats.md` and use ZZYZX's Phishtistics site (ihoz.com) instead of aggregating many API calls yourself.
+
+## YouTube video tracking
+
+For finding or tracking Phish videos (official uploads, full-show or single-jam footage, "is there video of that Tweezer?"), read `references/youtube.md` and use `scripts/phishtube.py`. It needs a separate free Google API key (`YOUTUBE_API_KEY` env var; same never-echo/never-store handling as the Phish.net key).
+
+```bash
+python scripts/phishtube.py uploads phish --limit 25       # official channel
+python scripts/phishtube.py show 2026-09-04                # footage from a show date
+python scripts/phishtube.py search "Phish Ghost 1997" --after 1997-11-01
+```
+
+Quota matters: channel-uploads listing costs 1 unit, search costs 100 (10,000/day budget) — prefer uploads listing and cache video IDs when tracking. The best workflow combines both APIs: pull the setlist/jam chart from Phish.net, then search YouTube for the flagged jams by song + date.
 
 ## How to run queries
 

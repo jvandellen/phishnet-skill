@@ -12,7 +12,8 @@ phishnet/
 ├── references/
 │   └── api-reference.md         # full method/column reference, setlist field semantics
 └── scripts/
-    └── phishnet.py              # stdlib-only CLI client
+    ├── phishnet.py              # stdlib-only Phish.net CLI client
+    └── phishtube.py             # stdlib-only YouTube video tracker
 ```
 
 ## Setup
