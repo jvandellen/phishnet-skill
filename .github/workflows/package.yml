@@ -1,0 +1,45 @@
+name: Package skill
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - SKILL.md
+      - README.md
+      - references/**
+      - scripts/**
+      - .github/workflows/package.yml
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate scripts compile
+        run: python3 -m py_compile scripts/*.py
+
+      - name: Build phishnet.skill
+        run: |
+          rm -rf /tmp/stage && mkdir -p /tmp/stage/phishnet dist
+          cp SKILL.md README.md /tmp/stage/phishnet/
+          cp -r references scripts /tmp/stage/phishnet/
+          find /tmp/stage -name __pycache__ -type d -exec rm -rf {} +
+          (cd /tmp/stage && zip -rq skill.zip phishnet)
+          mv /tmp/stage/skill.zip dist/phishnet.skill
+          unzip -l dist/phishnet.skill
+
+      - name: Commit updated package
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add dist/phishnet.skill
+          if git diff --cached --quiet; then
+            echo "dist unchanged, nothing to commit"
+          else
+            git commit -m "ci: rebuild dist/phishnet.skill"
+            git push
+          fi
