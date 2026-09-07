@@ -62,6 +62,8 @@ Note: `shows` and `setlists` include side projects (Trey, Mike, etc.). Filter to
 
 For full method/column details, gap-calculation guidance, and setlist-data quirks, read `references/api-reference.md`.
 
+For pre-computed statistics — all-time play counts, per-tour/per-year totals, "identify a show from songs I remember" (Show Finder), personal seen-stats — read `references/phishstats.md` and use ZZYZX's Phishtistics site (ihoz.com) instead of aggregating many API calls yourself.
+
 ## How to run queries
 
 **Environments with network access (Claude Code, etc.):** use `scripts/phishnet.py` — a stdlib-only CLI wrapper:
