@@ -1,6 +1,6 @@
 ---
 name: phishnet
-description: Query the Phish.net API v5 for Phish setlists, shows, songs, jam charts, venues, reviews, and attendance data, and track Phish videos on YouTube (official channel uploads, show/jam footage, couch tour streams) via the YouTube Data API. Use this skill whenever the user asks about Phish shows or setlists ("what did they play at...", "when was the last..."), song performance history or gaps, jam chart entries, venue history, tour dates, show ratings/reviews, finding video of a Phish show or jam, new uploads from Phish's YouTube channels, or anything referencing Phish.net data — even if they don't mention the API by name. Also use it when building tools, scripts, or reports that consume Phish.net or Phish YouTube data.
+description: Query the Phish.net API v5 for Phish setlists, shows, songs, jam charts, venues, reviews, and attendance data; find live audio recordings, track durations, and streams via Phish.in (API v2 and its MCP server); and track Phish videos on YouTube (official channel uploads, show/jam footage, couch tour streams) via the YouTube Data API. Use this skill whenever the user asks about Phish shows or setlists ("what did they play at...", "when was the last..."), song performance history or gaps, jam chart entries, venue history, tour dates, show ratings/reviews, listening to or streaming a Phish show or jam, longest versions of a song, "this day in Phish history", finding video of a Phish show or jam, new uploads from Phish's YouTube channels, or anything referencing Phish.net or Phish.in data — even if they don't mention the API by name. Also use it when building tools, scripts, or reports that consume Phish.net, Phish.in, or Phish YouTube data.
 ---
 
 # Phish.net API Skill
@@ -63,6 +63,18 @@ Note: `shows` and `setlists` include side projects (Trey, Mike, etc.). Filter to
 For full method/column details, gap-calculation guidance, and setlist-data quirks, read `references/api-reference.md`.
 
 For pre-computed statistics — all-time play counts, per-tour/per-year totals, "identify a show from songs I remember" (Show Finder), personal seen-stats — read `references/phishstats.md` and use ZZYZX's Phishtistics site (ihoz.com) instead of aggregating many API calls yourself.
+
+## Phish.in audio archive
+
+For listening — streamable recordings, per-track MP3 links and durations, "longest Tweezers", "this day in Phish history" — read `references/phishin.md` and use `scripts/phishin.py` (no API key needed):
+
+```bash
+python scripts/phishin.py show 1997-11-22          # tracks + stream URLs
+python scripts/phishin.py song tweezer --sort duration:desc --limit 10
+python scripts/phishin.py day-of-year 2026-09-07
+```
+
+Phish.in also runs an MCP server at `https://phish.in/mcp` — in claude.ai, suggest the user add it as a custom connector for live audio-archive queries without any sandbox limitation. Phish.net stays the setlist authority; phish.in is where the audio lives.
 
 ## YouTube video tracking
 
